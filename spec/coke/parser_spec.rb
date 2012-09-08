@@ -21,4 +21,17 @@ describe Coke::Parser do
 			])
 	end
 
+	it "identifies methods" do
+    code = <<-CODE
+def method:
+  true
+CODE
+    nodes = Coke::Nodes.new([
+      Coke::DefNode.new("method", [],
+        Coke::Nodes.new([Coke::TrueNode.new])
+      )
+    ])
+    parsed(code).should == nodes
+  end
+
 end

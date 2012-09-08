@@ -5,8 +5,8 @@ module Coke
 			@parser = Parser.new
 		end
 
-		def to_objc(code)
-			@parser.parse(code).to_objc(Runtime)
+		def compile(code)
+			@parser.parse(code).to_objc(nil)
 		end
 	end
 
@@ -23,37 +23,48 @@ module Coke
 			# The last value to_objcuated in a method is the return value. Or nil if none.
 			return_value
 		end
+
+		def to_objc_returning(context)
+			src = ""
+			return_value = nil
+			nodes.each do |node|
+				src << "return " if node == nodes.last
+				src << node.to_objc(context)
+			end
+			# The last value to_objcuated in a method is the return value. Or nil if none.
+			src
+		end
 	end
 
 	class NumberNode
 		def to_objc(context)
 			# Here we access the Runtime, which we'll see in the next section, to create a new
 			# instance of the Number class.
-			Runtime["Number"].new_with_value(value)
+			"@(#{value})" #Runtime["Number"].new_with_value(value)
 		end
 	end
 
 	class StringNode
 		def to_objc(context)
-			Runtime["String"].new_with_value(value)
+			"@\"#{value}\"" #Runtime["String"].new_with_value(value)
 		end
 	end
 
 	class TrueNode
 		def to_objc(context)
-			Runtime["true"]
+			"YES" #Runtime["true"]
 		end
 	end
 
 	class FalseNode
 		def to_objc(context)
-			Runtime["false"]
+			"NO" #Runtime["false"]
 		end
 	end
 
 	class NilNode
 		def to_objc(context)
-			Runtime["nil"]
+			"null" #Runtime["nil"]
 		end
 	end
 
@@ -62,21 +73,24 @@ module Coke
 			# If there's no receiver and the method name is the name of a local variable, then
 			# it's a local variable access. This trick allows us to skip the () when calling a
 			# method.
-			if receiver.nil? && context.locals[method] && arguments.empty?
-				context.locals[method]
+			if receiver.nil? && arguments.empty? # && context.locals[method]
+				# context.locals[method]
+				method #{}"[self #{method}]"
 
 			# Method call
 			else
 				if receiver
-					value = receiver.to_objc(context)
+					# value = receiver.to_objc(context)
+					"[#{receiver} #{method}]"
 				else
 					# In case there's no receiver we default to self, calling "print" is like
 					# "self.print".
-					value = context.current_self
+					# value = context.current_self
+					"[self #{method}]"
 				end
 
-				to_objc_arguments = arguments.map { |arg| arg.to_objc(context) }
-				value.call(method, to_objc_arguments)
+				# to_objc_arguments = arguments.map { |arg| arg.to_objc(context) }
+				# value.call(method, to_objc_arguments)
 			end
 		end
 	end
@@ -102,8 +116,9 @@ module Coke
 	class DefNode
 		def to_objc(context)
 			# Defining a method is adding a method to the current class.
-			method = AwesomeMethod.new(params, body)
-			context.current_class.runtime_methods[name] = method
+			# method = AwesomeMethod.new(params, body)
+			# context.current_class.runtime_methods[name] = method
+			"-(id)#{name}{#{body.to_objc_returning(context)}}"
 		end
 	end
 

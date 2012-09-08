@@ -37,5 +37,13 @@ describe Coke::Lexer do
 
 	end
 
+	it "identifies methods" do
+    code = <<-CODE
+def method:
+  true
+CODE
+    lexed(code).should == [[:DEF, "def"], [:IDENTIFIER, "method"], [:INDENT, 2], [:TRUE, "true"], [:DEDENT, 0]]
+  end
+
 
 end

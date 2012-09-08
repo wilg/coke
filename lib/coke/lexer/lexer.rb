@@ -1,6 +1,6 @@
 module Coke
 	class Lexer
-		KEYWORDS = ["class", "if", "true", "false", "nil"]
+		KEYWORDS = ["def", "class", "if", "true", "false", "nil"]
 
 		def tokenize(code)
 			# Cleanup code by remove extra line breaks
