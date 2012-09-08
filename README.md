@@ -1,4 +1,4 @@
-# Coke
+#Coke [![Build Status](https://secure.travis-ci.org/wilg/coke.png?branch=master)](http://travis-ci.org/wilg/coke) [![Dependency Status](https://gemnasium.com/wilg/coke.png)](https://gemnasium.com/wilg/coke) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/wilg/coke)
 
 TODO: Write a gem description
 
