@@ -7,13 +7,17 @@
 #
 class LPImageController < NSObject + Category + SecondCategory
 
-	property outlet NSImageView imageWell
-	property outlet NSImageView imageWell2
-
-	appropriatelySizedImage: ->
-		NSImage img = @imageWell.image.imageScaledToFitSize: NSMakeSize(512, 32)
+	methodWithNoOptions
+		NSImage img = @imageWell.image.imageScaledToFitSize: *NSMakeSize(512, 32)
 		@imageWell.image = img
 		img
 
 	methodWithOneOption: option secondOption: thing ->
 		[option, thing] # returns array
+
+	@controller
+		@.alloc.init if @
+
+	# Won't appear in header or @interface
+	_privateMethod ->
+		return @imageWell

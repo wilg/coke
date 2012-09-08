@@ -1,0 +1,5 @@
+# myClass.property
+myClass@property
+
+#myClass.property = @"A String!"
+myClass@property = "A String!"

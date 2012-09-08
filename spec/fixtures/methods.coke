@@ -1,0 +1,12 @@
+# [NSBundle mainBundle]
+NSBundle.mainBundle()
+# or
+NSBundle.mainBundle
+
+# [[NSBundle mainBundle] loadNibNamed:@"ChallengePromoCell" owner:self options:nil]
+NSBundle.mainBundle.loadNibNamed: "ChallengePromoCell" owner:@ options:nil
+# or
+NSBundle.mainBundle.loadNibNamed:("ChallengePromoCell" owner:@ options:nil)
+
+# [[[NSBundle mainBundle] loadNibNamed:@"ChallengePromoCell" owner:self options:nil] open]
+NSBundle.mainBundle.loadNibNamed:("ChallengePromoCell" owner:@ options:nil).open
