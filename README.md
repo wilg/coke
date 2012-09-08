@@ -1,7 +1,10 @@
 #Coke [![Build Status](https://secure.travis-ci.org/wilg/coke.png?branch=master)](http://travis-ci.org/wilg/coke) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/wilg/coke)
 
-TODO: Write a gem description
+A little language that compiles to Cocoa.
 
+Not even close to done. Get out!
+
+<!---
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -27,3 +30,4 @@ TODO: Write usage instructions here
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+--->
