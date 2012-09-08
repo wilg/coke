@@ -41,6 +41,66 @@ describe Coke::Lexer do
 
 	end
 
+	it "lexes spaces to whitespace" do
+		lexed("  identifier").should == [[:IDENTIFIER, "identifier"]]
+	end
+
+	it "lexes tabs to whitespace" do
+		# lexed("\t\tidentifier").should == [[:IDENTIFIER, "identifier"]]
+	end
+
+	describe "lexes method calls" do
+
+		it "lexes methods with parentheses" do
+			lexed("NSBundle.mainBundle()").should == [
+				[:CONSTANT, "NSBundle"],
+				[".", "."],
+				[:IDENTIFIER, "mainBundle"],
+				["(", "("],
+				[")", ")"]
+			]
+		end
+
+		it "lexes methods with no argument argument without parentheses" do
+			lexed('NSBundle.mainBundle.loadNibNamed: "ChallengePromoCell" owner:@ options:nil').should == [
+				[:CONSTANT, "NSBundle"],
+				[".", "."],
+				[:IDENTIFIER, "mainBundle"],
+				[".", "."],
+				[:IDENTIFIER, "loadNibNamed"],
+				[":", ":"],
+				[:STRING, "ChallengePromoCell"],
+				[:IDENTIFIER, "owner"],
+				[":", ":"],
+				["@", "@"],
+				[:IDENTIFIER, "options"],
+				[":", ":"],
+				[:NIL, "nil"]
+			]
+		end
+
+		it "lexes methods with no argument argument without parentheses" do
+			lexed('NSBundle.mainBundle.loadNibNamed:("ChallengePromoCell" owner:@ options:nil)').should == [
+				[:CONSTANT, "NSBundle"],
+				[".", "."],
+				[:IDENTIFIER, "mainBundle"],
+				[".", "."],
+				[:IDENTIFIER, "loadNibNamed"],
+				[":", ":"],
+				["(", "("],
+				[:STRING, "ChallengePromoCell"],
+				[:IDENTIFIER, "owner"],
+				[":", ":"],
+				["@", "@"],
+				[:IDENTIFIER, "options"],
+				[":", ":"],
+				[:NIL, "nil"],
+				[")", ")"]
+			]
+		end
+
+	end
+
 	describe "lexes methods" do
 
 		it "with string param" do
