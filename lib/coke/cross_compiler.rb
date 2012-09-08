@@ -81,7 +81,7 @@ module Coke
 			else
 				if receiver
 					# value = receiver.to_objc(context)
-					"[#{receiver} #{method}]"
+					"[#{receiver.to_objc(context)} #{method}]"
 				else
 					# In case there's no receiver we default to self, calling "print" is like
 					# "self.print".
@@ -97,7 +97,7 @@ module Coke
 
 	class GetConstantNode
 		def to_objc(context)
-			context[name]
+			"#{name}"
 		end
 	end
 

@@ -21,10 +21,14 @@ describe Coke::CrossCompiler do
 	# 	tokens
 	# end
 
-	describe "compiles methods" do
+	describe "compiles method calls" do
 
 		it "with string param" do
 			compiled('method("hello", "world")').should == "[self method]"
+		end
+
+		it "with parentheses" do
+			compiled("NSBundle.mainBundle()").should == "[NSBundle mainBundle]"
 		end
 
 	end

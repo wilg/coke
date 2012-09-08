@@ -21,6 +21,12 @@ describe Coke::Parser do
 			])
 	end
 
+	it "parses methods with parentheses" do
+		parsed("NSBundle.mainBundle()").should == Coke::Nodes.new([
+			Coke::CallNode.new(Coke::GetConstantNode.new("NSBundle"), "mainBundle", [])
+		])
+	end
+
 	it "identifies methods" do
     code = <<-CODE
 def method:
