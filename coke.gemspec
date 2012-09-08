@@ -16,8 +16,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Coke::VERSION
 
+  gem.add_development_dependency 'rake'
   gem.add_development_dependency 'racc'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rexical'
+  gem.add_development_dependency 'guard-rspec'
+  gem.add_development_dependency 'guard-shell'
 
 end
