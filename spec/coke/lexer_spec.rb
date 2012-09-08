@@ -31,7 +31,12 @@ describe Coke::Lexer do
 		let(:l){lexedf "helloworld.coke"}
 
 		it "lexes right" do
-			l.should == [[:IDENTIFIER, "log"], [:STRING, "hello world"]]
+			l.should == [
+				[:COMMENT, " Comment"],
+				[:NEWLINE, "\n"],
+				[:IDENTIFIER, "log"],
+				[:STRING, "hello world"]
+			]
 		end
 
 	end

@@ -51,6 +51,10 @@ module Coke
 					tokens << [:STRING, string]
 					i += string.size + 2
 
+				elsif string = chunk[/#(.*?)$/, 1]
+					tokens << [:COMMENT, string]
+					i += string.size + 1
+
 				# Here's the indentation magic!
 				#
 				# We have to take care of 3 cases:
