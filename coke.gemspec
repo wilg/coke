@@ -2,6 +2,7 @@
 require File.expand_path('../lib/coke/version', __FILE__)
 
 Gem::Specification.new do |gem|
+
   gem.authors       = ["Wil Gieseler"]
   gem.email         = ["supapuerco@gmail.com"]
   gem.description   = %q{TODO: Write a gem description}
@@ -14,4 +15,9 @@ Gem::Specification.new do |gem|
   gem.name          = "coke"
   gem.require_paths = ["lib"]
   gem.version       = Coke::VERSION
+
+  gem.add_development_dependency 'racc'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rexical'
+
 end

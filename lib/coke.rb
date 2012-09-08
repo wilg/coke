@@ -1,5 +1,4 @@
 require "coke/version"
-
-module Coke
-  # Your code goes here...
-end
+require "coke/nodes"
+require "coke/lexer/lexer"
+require "coke/parser/parser"
