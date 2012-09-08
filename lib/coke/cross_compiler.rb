@@ -5,28 +5,28 @@ module Coke
 			@parser = Parser.new
 		end
 
-		def eval(code)
-			@parser.parse(code).eval(Runtime)
+		def to_objc(code)
+			@parser.parse(code).to_objc(Runtime)
 		end
 	end
 
 	class Nodes
-		# This method is the "interpreter" part of our language. All nodes know how to eval
-		# itself and returns the result of its evaluation by implementing the "eval" method.
-		# The "context" variable is the environment in which the node is evaluated (local
+		# This method is the "interpreter" part of our language. All nodes know how to to_objc
+		# itself and returns the result of its to_objcuation by implementing the "to_objc" method.
+		# The "context" variable is the environment in which the node is to_objcuated (local
 		# variables, current class, etc.).
-		def eval(context)
+		def to_objc(context)
 			return_value = nil
 			nodes.each do |node|
-				return_value = node.eval(context)
+				return_value = node.to_objc(context)
 			end
-			# The last value evaluated in a method is the return value. Or nil if none.
-			return_value || Runtime["nil"]
+			# The last value to_objcuated in a method is the return value. Or nil if none.
+			return_value
 		end
 	end
 
 	class NumberNode
-		def eval(context)
+		def to_objc(context)
 			# Here we access the Runtime, which we'll see in the next section, to create a new
 			# instance of the Number class.
 			Runtime["Number"].new_with_value(value)
@@ -34,31 +34,31 @@ module Coke
 	end
 
 	class StringNode
-		def eval(context)
+		def to_objc(context)
 			Runtime["String"].new_with_value(value)
 		end
 	end
 
 	class TrueNode
-		def eval(context)
+		def to_objc(context)
 			Runtime["true"]
 		end
 	end
 
 	class FalseNode
-		def eval(context)
+		def to_objc(context)
 			Runtime["false"]
 		end
 	end
 
 	class NilNode
-		def eval(context)
+		def to_objc(context)
 			Runtime["nil"]
 		end
 	end
 
 	class CallNode
-		def eval(context)
+		def to_objc(context)
 			# If there's no receiver and the method name is the name of a local variable, then
 			# it's a local variable access. This trick allows us to skip the () when calling a
 			# method.
@@ -68,39 +68,39 @@ module Coke
 			# Method call
 			else
 				if receiver
-					value = receiver.eval(context)
+					value = receiver.to_objc(context)
 				else
 					# In case there's no receiver we default to self, calling "print" is like
 					# "self.print".
 					value = context.current_self
 				end
 
-				eval_arguments = arguments.map { |arg| arg.eval(context) }
-				value.call(method, eval_arguments)
+				to_objc_arguments = arguments.map { |arg| arg.to_objc(context) }
+				value.call(method, to_objc_arguments)
 			end
 		end
 	end
 
 	class GetConstantNode
-		def eval(context)
+		def to_objc(context)
 			context[name]
 		end
 	end
 
 	class SetConstantNode
-		def eval(context)
-			context[name] = value.eval(context)
+		def to_objc(context)
+			context[name] = value.to_objc(context)
 		end
 	end
 
 	class SetLocalNode
-		def eval(context)
-			context.locals[name] = value.eval(context)
+		def to_objc(context)
+			context.locals[name] = value.to_objc(context)
 		end
 	end
 
 	class DefNode
-		def eval(context)
+		def to_objc(context)
 			# Defining a method is adding a method to the current class.
 			method = AwesomeMethod.new(params, body)
 			context.current_class.runtime_methods[name] = method
@@ -108,7 +108,7 @@ module Coke
 	end
 
 	class ClassNode
-		def eval(context)
+		def to_objc(context)
 			# Try to locate the class. Allows reopening classes to add methods.
 			awesome_class = context[name]
 
@@ -118,23 +118,23 @@ module Coke
 				context[name] = awesome_class
 			end
 
-			# Evaluate the body of the class in its context. Providing a custom context allows
+			# to_objcuate the body of the class in its context. Providing a custom context allows
 			# to control where methods are added when defined with the def keyword. In this
 			# case, we add them to the newly created class.
 			class_context = Context.new(awesome_class, awesome_class)
 
-			body.eval(class_context)
+			body.to_objc(class_context)
 
 			awesome_class
 		end
 	end
 
 	class IfNode
-		def eval(context)
+		def to_objc(context)
 			# We turn the condition node into a Ruby value to use Ruby's "if" control
 			# structure.
-			if condition.eval(context).ruby_value
-				body.eval(context)
+			if condition.to_objc(context).ruby_value
+				body.to_objc(context)
 			end
 		end
 	end
