@@ -165,3 +165,13 @@ end
 ---- header
 
 ---- inner
+  # This code will be put as-is in the Parser class.
+  def parse(code, show_tokens=false)
+    @tokens = Lexer.new.tokenize(code) # Tokenize the code using our lexer
+    puts @tokens.inspect if show_tokens
+    do_parse # Kickoff the parsing process
+  end
+
+  def next_token
+    @tokens.shift
+  end

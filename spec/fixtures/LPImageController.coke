@@ -5,7 +5,7 @@
 #  Created by Greg Cotten on 8/22/12.
 #  Copyright (c) 2012 Greg Cotten. All rights reserved.
 #
-class LPImageController < NSObject
+class LPImageController < NSObject + Category + SecondCategory
 
 	property outlet NSImageView imageWell
 	property outlet NSImageView imageWell2
@@ -14,3 +14,6 @@ class LPImageController < NSObject
 		NSImage img = @imageWell.image.imageScaledToFitSize: NSMakeSize(512, 32)
 		@imageWell.image = img
 		img
+
+	methodWithOneOption: option secondOption: thing ->
+		[option, thing] # returns array

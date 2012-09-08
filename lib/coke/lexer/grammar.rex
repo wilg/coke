@@ -1,10 +1,11 @@
 class Coke::Parser
 macro
-  BLANK         [\ \t]+
+  BLANK         [\A ]+
 rule
   BLANK         # no action
   \d+           { [:IDENTIFIER, text.to_i] }
-  \w+           { [:IDENTIFIER, text] }
-  \n
+  \A([a-z]\w*)  { [:IDENTIFIER, text] }
+  \A"(.*?)"			{ [:STRING, text] }
+  \n 	          { [:NEWLINE, text] }
   .             { [text, text] }
 end

@@ -1,50 +1,41 @@
 require 'spec_helper'
 
-describe "Lexer" do
+describe Coke::Lexer do
 
-	def lex str
-		@scanner = Coke::Parser.new
-		@scanner.scan_setup str
+	let(:lexer) { Coke::Lexer.new }
+	def lexed code
+		lexer.tokenize code
 	end
 
-	def lexed(scanner = @scanner)
-    tokens = []
-    while token = scanner.next_token
-      tokens << token
-    end
-    tokens
-  end
+	# REX LEXING
+	# def lex str
+	# 	@scanner = Coke::Parser.new
+	# 	@scanner.scan_setup str
+	# end
 
-	it "works" do
-		lex <<-CODE
-if 1:
-  if 2:
-    print "..."
-    if false:
-      pass
-    print "done!"
-  2
+	# def lexed(scanner = @scanner)
+	# 	tokens = []
+	# 	while token = scanner.next_token
+	# 		tokens << token
+	# 	end
+	# 	tokens
+	# end
 
-print "The End"
-CODE
-    tokens = [
-      [:IF, "if"], [:NUMBER, 1],
-        [:INDENT, 2],
-          [:IF, "if"], [:NUMBER, 2],
-          [:INDENT, 4],
-            [:IDENTIFIER, "print"], [:STRING, "..."], [:NEWLINE, "\n"],
-            [:IF, "if"], [:FALSE, "false"],
-            [:INDENT, 6],
-              [:IDENTIFIER, "pass"],
-            [:DEDENT, 4], [:NEWLINE, "\n"],
-            [:IDENTIFIER, "print"], [:STRING, "done!"],
-        [:DEDENT, 2], [:NEWLINE, "\n"],
-        [:NUMBER, 2],
-      [:DEDENT, 0], [:NEWLINE, "\n"],
-      [:NEWLINE, "\n"],
-      [:IDENTIFIER, "print"], [:STRING, "The End"]
-    ]
-		lexed.should == tokens
+	describe "lexes methods" do
+
+		it "with string param" do
+			lexed('log "hello world"').should == [[:IDENTIFIER, "log"], [:STRING, "hello world"]]
+		end
+
+		it "in parentheses with string param" do
+			lexed('log("hello world")').should == [[:IDENTIFIER, "log"], ["(", "("], [:STRING, "hello world"], [")", ")"]]
+		end
+
+		it "with number param" do
+			lexed('log 2').should == [[:IDENTIFIER, "log"], [:NUMBER, 2]]
+		end
+
 	end
+
 
 end
