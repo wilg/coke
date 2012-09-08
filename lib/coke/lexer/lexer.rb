@@ -5,7 +5,7 @@
 #++
 
 require 'racc/parser'
-class Sample < Racc::Parser
+class Coke::Parser < Racc::Parser
   require 'strscan'
 
   class ScanError < StandardError ; end
@@ -61,10 +61,10 @@ class Sample < Racc::Parser
         ;
 
       when (text = @ss.scan(/\d+/))
-         action { [:digit, text.to_i] }
+         action { [:IDENTIFIER, text.to_i] }
 
       when (text = @ss.scan(/\w+/))
-         action { [:word, text] }
+         action { [:IDENTIFIER, text] }
 
       when (text = @ss.scan(/\n/))
         ;

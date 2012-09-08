@@ -7,19 +7,11 @@
 require 'racc/parser.rb'
 
 
-class Parser < Racc::Parser
+module Coke
+  class Parser < Racc::Parser
 
 module_eval(<<'...end grammar.y/module_eval...', 'grammar.y', 168)
-  # This code will be put as-is in the Parser class.
-  def parse(code, show_tokens=false)
-    @tokens = Lexer.new.tokenize(code) # Tokenize the code using our lexer
-    puts @tokens.inspect if show_tokens
-    do_parse # Kickoff the parsing process
-  end
 
-  def next_token
-    @tokens.shift
-  end
 ...end grammar.y/module_eval...
 ##### State transition tables begin ###
 
@@ -668,4 +660,5 @@ def _reduce_none(val, _values, result)
   val[0]
 end
 
-end   # class Parser
+  end   # class Parser
+  end   # module Coke

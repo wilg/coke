@@ -1,10 +1,10 @@
-class Sample
+class Coke::Parser
 macro
   BLANK         [\ \t]+
 rule
   BLANK         # no action
-  \d+           { [:digit, text.to_i] }
-  \w+           { [:word, text] }
+  \d+           { [:IDENTIFIER, text.to_i] }
+  \w+           { [:IDENTIFIER, text] }
   \n
   .             { [text, text] }
 end

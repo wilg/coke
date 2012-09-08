@@ -1,0 +1,16 @@
+#
+#  LPImageController.coke
+#  Light Paint
+#
+#  Created by Greg Cotten on 8/22/12.
+#  Copyright (c) 2012 Greg Cotten. All rights reserved.
+#
+class LPImageController < NSObject
+
+	property outlet NSImageView imageWell
+	property outlet NSImageView imageWell2
+
+	appropriatelySizedImage: ->
+		NSImage img = @imageWell.image.imageScaledToFitSize: NSMakeSize(512, 32)
+		@imageWell.image = img
+		img
