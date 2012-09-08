@@ -17,3 +17,4 @@ test/version_tmp
 tmp
 book
 .DS_Store
+*.sublime-workspace
