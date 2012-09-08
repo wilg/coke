@@ -29,12 +29,12 @@ describe Coke::CrossCompiler do
 
 	end
 
-	it "compiles method declarations" do
-		code = <<-CODE
-def method:
-  x.method
-CODE
-		compiled(code).should == "-(id)method{return YES;}"
-	end
+# 	it "compiles method declarations" do
+# 		code = <<-CODE
+# def method:
+#   x.method
+# CODE
+# 		compiled(code).should == "-(id)method{return YES;}"
+# 	end
 
 end

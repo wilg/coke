@@ -6,6 +6,11 @@ describe Coke::Lexer do
 	def lexed code
 		lexer.tokenize code
 	end
+	def lexedf filename
+    open(File.expand_path(File.join(__FILE__, "..", "..", "fixtures", filename)), "r") do |f|
+      lexer.tokenize f.read
+    end
+	end
 
 	# REX LEXING
 	# def lex str
@@ -20,6 +25,16 @@ describe Coke::Lexer do
 	# 	end
 	# 	tokens
 	# end
+
+	describe "helloworld.coke" do
+
+		let(:l){lexedf "helloworld.coke"}
+
+		it "lexes right" do
+			l.should == [[:IDENTIFIER, "log"], [:STRING, "hello world"]]
+		end
+
+	end
 
 	describe "lexes methods" do
 
