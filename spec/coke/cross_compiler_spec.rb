@@ -7,20 +7,6 @@ describe Coke::CrossCompiler do
 		cross_compiler.compile code
 	end
 
-	# REX LEXING
-	# def lex str
-	# 	@scanner = Coke::Parser.new
-	# 	@scanner.scan_setup str
-	# end
-
-	# def lexed(scanner = @scanner)
-	# 	tokens = []
-	# 	while token = scanner.next_token
-	# 		tokens << token
-	# 	end
-	# 	tokens
-	# end
-
 	describe "compiles method calls" do
 
 		it "with string param" do
@@ -29,6 +15,23 @@ describe Coke::CrossCompiler do
 
 		it "with parentheses" do
 			compiled("NSBundle.mainBundle()").should == "[NSBundle mainBundle]"
+		end
+
+		it "nested with parentheses" do
+			compiled("NSBundle.alloc().init()").should == "[[NSBundle alloc] init]"
+		end
+
+		it "nested without parentheses" do
+			compiled("NSBundle.alloc.init").should == "[[NSBundle alloc] init]"
+		end
+
+		it "with a colon in the name" do
+			compiled("NSBundle.alloc:()").should == "[NSBundle alloc]"
+		end
+
+		it "with named arguments" do
+			compiled('NSBundle.mainBundle.loadNibNamed(:"ChallengePromoCell" owner:@ options:nil)').should ==
+			'[[NSBundle mainBundle] loadNibNamed:@"ChallengePromoCell" owner:self options:nil]'
 		end
 
 	end

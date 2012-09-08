@@ -61,6 +61,17 @@ describe Coke::Lexer do
 			]
 		end
 
+		it "lexes methods with a colon in the name" do
+			lexed("NSBundle.mainBundle:()").should == [
+				[:CONSTANT, "NSBundle"],
+				[".", "."],
+				[:IDENTIFIER, "mainBundle"],
+				[":", ":"],
+				["(", "("],
+				[")", ")"]
+			]
+		end
+
 		it "lexes methods with no argument argument without parentheses" do
 			lexed('NSBundle.mainBundle.loadNibNamed: "ChallengePromoCell" owner:@ options:nil').should == [
 				[:CONSTANT, "NSBundle"],

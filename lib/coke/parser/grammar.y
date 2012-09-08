@@ -16,6 +16,7 @@ token INDENT DEDENT
 # Based on http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B#Operator_precedence
 prechigh
   left  '.'
+  left  ':'
   right '!'
   left  '*' '/'
   left  '+' '-'
@@ -81,6 +82,7 @@ rule
   | TRUE                          { result = TrueNode.new }
   | FALSE                         { result = FalseNode.new }
   | NIL                           { result = NilNode.new }
+  | "@"                           { result = SelfNode.new }
   ;
 
   # A method call
@@ -94,12 +96,19 @@ rule
     # receiver.method(arguments)
   | Expression "."
       IDENTIFIER "(" ArgList ")"  { result = CallNode.new(val[0], val[2], val[4]) }
+    # receiver.method:(arguments)
+  | Expression "."
+      IDENTIFIER ":" "(" ArgList ")"  { result = CallNode.new(val[0], val[2], val[5]) }
   ;
 
   ArgList:
-    /* nothing */                 { result = [] }
-  | Expression                    { result = val }
-  | ArgList "," Expression        { result = val[0] << val[2] }
+    /* nothing */                 			{ result = [] }
+  | Expression                    			{ result = val }
+  | ":" Expression                    	{ result = val[1] }
+  #| Expression ArgList 								{ result = [val[0]] << val[1] }
+  | ArgList "," Expression        			{ result = val[0] << val[2] }
+  #| ArgList ":" Expression        			{ result = val[0] << val[2] }
+  | ArgList Expression ":" Expression   { result = [val[0] << val[3]].flatten }
   ;
 
   Operator:

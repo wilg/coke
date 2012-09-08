@@ -28,6 +28,7 @@ module Coke
 			super(nil)
 		end
 	end
+	class SelfNode ; end
 
 	# Node of a method call or local variable access, can take any of these forms:
 	#
