@@ -46,7 +46,7 @@ describe Coke::Lexer do
 	end
 
 	it "lexes tabs to whitespace" do
-		# lexed("\t\tidentifier").should == [[:IDENTIFIER, "identifier"]]
+		# # lexed("\t\tidentifier").should == [[:IDENTIFIER, "identifier"]]
 	end
 
 	describe "lexes method calls" do
